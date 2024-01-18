@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Shared\_OriginalLayout.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Views\Administration\CreateRole.cshtml" />
     <None Include="Views\Administration\EditRole.cshtml" />
     <None Include="Views\Administration\EditUser.cshtml" />
@@ -16,8 +20,8 @@
     <None Include="Views\Administration\ListRoles.cshtml" />
     <None Include="Views\Administration\ListUsers.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
-    <None Include="Views\Home\Privacy.cshtml" />
     <None Include="Views\Shared\Error.cshtml" />
+    <None Include="Views\Shared\_OriginalLayout.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
     <None Include="Views\Shared\_LoginPartial.cshtml" />
     <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />

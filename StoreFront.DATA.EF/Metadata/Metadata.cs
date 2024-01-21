@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StoreFront.DATA.EF//.Metadata
+namespace StoreFront.DATA.EF.Models//.Metadata
 {
     public class CategoryMetadata 
     {
@@ -24,7 +24,7 @@ namespace StoreFront.DATA.EF//.Metadata
     public class OrderMetadata 
     {
         [Display(Name = "User")]
-        public string UserID { get; set; } = null!;
+        public string UserId { get; set; } = null!;
 
         [Required]
         [Display(Name = "Order Date")]
@@ -131,12 +131,15 @@ namespace StoreFront.DATA.EF//.Metadata
         public string SupplierName { get; set; } = null!;
 
         [StringLength(500, ErrorMessage = "*Cannot exceed 500 characters")]
+        [DisplayFormat(NullDisplayText = "Not given")]
         public string? Region { get; set; }
 
         [StringLength(150, ErrorMessage = "*Cannot exceed 150 characters")]
+        [DisplayFormat(NullDisplayText = "Not given")]
         public string? Address { get; set; }
 
         [StringLength(100, ErrorMessage = "*Cannot exceed 100 characters")]
+        [DisplayFormat(NullDisplayText = "Not given")]
         public string? City { get; set; }
 
         [StringLength(2, MinimumLength = 2, ErrorMessage = "*Please enter state abbreviation")]

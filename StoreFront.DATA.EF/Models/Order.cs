@@ -5,6 +5,10 @@ namespace StoreFront.DATA.EF.Models
 {
     public partial class Order
     {
+        public Order()
+        {
+            OrderDetails = new HashSet<OrderDetail>();
+        }
         public int OrderId { get; set; }
         public string UserId { get; set; } = null!;
         public DateTime OrderDate { get; set; }
@@ -13,8 +17,7 @@ namespace StoreFront.DATA.EF.Models
         public string? ShipCity { get; set; }
         public string? ShipState { get; set; }
         public string? ShipZip { get; set; }
-
-        public virtual OrderDetail OrderNavigation { get; set; } = null!;
         public virtual User User { get; set; } = null!;
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

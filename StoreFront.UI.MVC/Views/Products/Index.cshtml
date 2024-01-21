@@ -7,10 +7,28 @@
 <section class="product_section layout_padding gray-section py-4">
     <div class="heading_container heading_center">
         <h2>Our <span>Products</span></h2>
-        <p align="center">
-            <a asp-action="Create">Add New Product</a>
-            <a asp-action="TiledIndex">Tile View</a>
-        </p>
+        <div class="d-flex justify-content-between">
+            @if (User.IsInRole("Admin"))
+            {
+                <span>
+                    <a asp-action="Create" class="btn btn-primary">Add New Product</a>
+                    &nbsp;
+                </span>
+                bool inSeason = Model.Any(p => p.Season == "yearly" || p.Season == "winter");
+
+                @if (inSeason)
+                {
+                    <a asp-action="Index" class="btn btn-info">Current Products</a>
+                }
+                else
+                {
+                    <a asp-action="Index" asp-route-discontinued="true" class="btn btn-info">Out of Season</a>
+                }
+            }
+            &nbsp;
+            <a asp-action="TiledIndex" class="btn btn-secondary">Tile View</a>
+
+        </div>
     </div>
 </section>
 
@@ -74,11 +92,22 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Supplier.SupplierName)
                 </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
-                    @*<a asp-action="Details" asp-route-id="@item.ProductId">Details</a> | *@
-                    <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
-                </td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
+                            @* <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> | *@
+
+                            @if (item.OrderDetails.Any())//.Count > 0
+                            {
+                                <a disabled class="text-danger" style="text-decoration: line-through;">Delete</a>
+                            }
+                            else
+                            {
+                                <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+                            }
+                        </td>
+                    }
             </tr>
         }
     </tbody>

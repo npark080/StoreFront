@@ -123,6 +123,7 @@ a:focus {
 
 .header_section {
     padding: 15px 0;
+    background-color: rgba(21, 71, 148, .8);
 }
 
 .header_section .container-fluid {

@@ -1,0 +1,45 @@
+﻿/* Navbar */
+.header_section {
+    background-color: rgba(21,71,148,0.8);
+}
+
+.custom_nav-container .navbar-nav .nav-item .nav-link {
+    color: white;
+}
+.custom_nav-container .navbar-nav .nav-item.active .nav-link {
+    color: #F9EC88;
+}
+
+.custom_nav-container .navbar-nav .nav-item .nav-link:hover {
+    color: #F9EC88;
+}
+
+.custom_nav-container .nav_search-btn {
+    color: white;
+}
+
+/* Body */
+body {
+    background: url(https://stardewvalley.net/wp-content/uploads/2017/12/stardewbackground.png) no-repeat fixed center center / cover !important;
+    image-rendering: pixelated;
+    font-family: 'Open Sans',sans-serif;
+    font-weight: 400;
+    font-size: 17px;
+}
+
+/* Index */
+.slider_section {
+    padding-bottom: 0;
+}
+#divider {
+    background: url(https://stardewvalley.net/wp-content/uploads/2017/12/sdv_divider.png);
+    width: 100%;
+    height: 541px;
+    margin-top: -280px;
+    background-position: center;
+}
+
+/* Footer */
+footer {
+    background-color: #F7E994;
+}

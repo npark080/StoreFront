@@ -1,0 +1,64 @@
+﻿@model StoreFront.UI.MVC.Models.ContactViewModel
+
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+@if (ViewBag.ErrorMessage !=null)
+{
+    <p>
+        @ViewBag.ErrorMessage;
+    </p>
+}
+
+<section class="product_section gray-section pb-4 pt-4 mb-4">
+    <div class="heading_container heading_center">
+        <h2>
+            Contact <span>Us</span>
+        </h2>
+    </div>
+</section>
+
+<div class="row mb-3">
+    <div class="col-md-6 offset-3">
+        <form asp-action="Contact">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating">
+                <input asp-for="Name" class="form-control" placeholder="Name" />
+                <label asp-for="Name" class="control-label"></label>
+                    <span asp-validation-for="Name" class="invalid-feedback"></span>
+
+            </div>
+            <div class="form-floating">
+                <input asp-for="Email" class="form-control" placeholder="Email"/>
+                <label asp-for="Email" class="control-label"></label>
+
+                    <span asp-validation-for="Email" class="invalid-feedback"></span>
+
+            </div>
+            <div class="form-floating">
+                <input asp-for="Subject" class="form-control" placeholder="Subject"/>
+                <label asp-for="Subject" class="control-label"></label>
+
+                    <span asp-validation-for="Subject" class="invalid-feedback"></span>
+
+            </div>
+            <div class="form-floating">
+                <textarea asp-for="Message" class="form-control" placeholder="Message"></textarea>
+                <label asp-for="Message" class="control-label"></label>
+
+                    <span asp-validation-for="Message" class="invalid-feedback"></span>
+
+            </div>
+            <div class="form-floating text-center">
+                <input type="submit" value="Submit" class="btn btn-primary btn-lg w-100 text-center d-inline-block" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

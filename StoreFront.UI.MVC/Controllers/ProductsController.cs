@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StoreFront.DATA.EF.Models;
+using System.Drawing;
+using StoreFront.UI.MVC.Utilities;
 
 namespace StoreFront.UI.MVC.Controllers
 {
@@ -14,10 +16,12 @@ namespace StoreFront.UI.MVC.Controllers
     public class ProductsController : Controller
     {
         private readonly StardewContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ProductsController(StardewContext context)
+        public ProductsController(StardewContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: Products
@@ -77,10 +81,32 @@ namespace StoreFront.UI.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,ProductName,Price,ProductDescription,UnitsInStock,Season,CategoryId,SupplierId,ImageName")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductId,ProductName,Price,ProductDescription,UnitsInStock,Season,CategoryId,SupplierId,ImageName, ImageFile")] Product product)
         {
             if (ModelState.IsValid)
             {
+                #region File Upload - CREATE
+                if (product.ImageFile != null && product.ImageFile.Length < 4_194_303)
+                {
+                    product.ImageName = Guid.NewGuid() + Path.GetExtension(product.ImageString);
+
+                    string webRootPath = _webHostEnvironment.WebRootPath;
+                    string fullImagePath = webRootPath + "/images/";
+
+                    using var memoryStream = new MemoryStream();
+                    await product.ImageFile.CopyToAsync(memoryStream);
+
+                    using Image img = Image.FromStream(memoryStream);
+
+                    int maxImageSize = 500;
+                    int maxThumbSize = 100;
+                    ImageUtility.ResizeImage(fullImagePath, product.ImageName, img, maxImageSize, maxThumbSize);
+                }
+                else
+                {
+                    product.ImageName = "noimage.png";
+                }
+                #endregion
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -113,7 +139,7 @@ namespace StoreFront.UI.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,Price,ProductDescription,UnitsInStock,Season,CategoryId,SupplierId,ImageName")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,Price,ProductDescription,UnitsInStock,Season,CategoryId,SupplierId,ImageName, ImageFile")] Product product)
         {
             if (id != product.ProductId)
             {
@@ -122,6 +148,29 @@ namespace StoreFront.UI.MVC.Controllers
 
             if (ModelState.IsValid)
             {
+                #region File Upload - EDIT
+                string? oldImageString = product.ImageName;
+                if (product.ImageFile != null && product.ImageFile.Length < 4_194_303)
+                {                  
+                    product.ImageName = Guid.NewGuid() + Path.GetExtension(product.ImageString);
+
+                    string webRootPath = _webHostEnvironment.WebRootPath;
+                    string fullImagePath = webRootPath + "/images/";
+
+                    if (oldImageString != null && oldImageString != "noimage.png")
+                    {
+                        ImageUtility.Delete(fullImagePath, oldImageString);
+                    }
+
+                    using var memoryStream = new MemoryStream();
+                    await product.ImageFile.CopyToAsync(memoryStream);
+                    using Image img = Image.FromStream(memoryStream);
+
+                    int maxImageSize = 500;
+                    int maxThumbSize = 100;
+                    ImageUtility.ResizeImage(fullImagePath, product.ImageName, img, maxImageSize, maxThumbSize);
+                }
+                #endregion
                 try
                 {
                     _context.Update(product);

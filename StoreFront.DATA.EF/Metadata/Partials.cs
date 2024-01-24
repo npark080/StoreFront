@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -28,7 +29,14 @@ namespace StoreFront.DATA.EF.Models//.Metadata
     }
 
     [ModelMetadataType(typeof(ProductMetadata))]
-    public partial class Product { }
+    public partial class Product 
+    {
+        [NotMapped]
+        public IFormFile? ImageFile { get; set; }
+        [NotMapped]
+        [FileExtensions(Extensions = "png,jpeg,jpg,gif", ErrorMessage = ".png, .jpeg, .jpg, .gif")]
+        public string? ImageString => ImageFile?.FileName;
+    }
 
     [ModelMetadataType(typeof(SupplierMetadata))]
     public partial class Supplier { }

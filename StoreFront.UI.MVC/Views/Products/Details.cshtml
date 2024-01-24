@@ -10,59 +10,40 @@
     </div>
 </section>
 
-<div>
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProductName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProductName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProductDescription)
-        </dt>
-        <dd class = "col-sm-10">
+<div class="row mb-3 border rounded shadow mx-auto p-4">
+
+    <div class="col-md-6 offset-3 text-center">
+        <img src="~/images/@Model.ImageName" alt="@Model.ProductName" longdesc="@Model.ProductDescription" class="img-fluid" />
+        <p class="text-info mt-3">
             @Html.DisplayFor(model => model.ProductDescription)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UnitsInStock)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UnitsInStock)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Season)
-        </dt>
-        <dd class = "col-sm-10">
+        </p>
+    </div>
+    <div class="offset-0 offset-md-3 col-md-3">
+        <p>
+            <strong>@Html.DisplayNameFor(model => model.Price)</strong>
+            @Html.DisplayFor(model => model.Price)
+        </p>
+        <p>
+            <strong>@Html.DisplayNameFor(model => model.Season)</strong>
             @Html.DisplayFor(model => model.Season)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImageName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-        <dd class = "col-sm-10">
+        </p>
+        <p>
+            <strong><label asp-for="UnitsInStock"></label></strong>
+            @Html.DisplayFor(model => model.UnitsInStock)
+        </p>
+    </div>
+    <div class="offset-0 offset-md-1 col-md-5">
+        <p>
+            <strong>@Html.DisplayNameFor(model => model.Category.CategoryName)</strong>
             @Html.DisplayFor(model => model.Category.CategoryName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Supplier)
-        </dt>
-        <dd class = "col-sm-10">
+        </p>
+        <p>
+            <strong>@Html.DisplayNameFor(model => model.Supplier.SupplierName)</strong>
             @Html.DisplayFor(model => model.Supplier.SupplierName)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.ProductId">Edit</a> |
-    <a asp-action="Index">Back to Products</a>
+        </p>
+    </div>
+    <div class="col-md-6 mx-auto">
+        <a asp-action="Edit" asp-route-id="@Model.ProductId" class="btn btn-secondary btn-block">Edit</a>
+        <a asp-action="Index" class="btn btn-primary btn-block">Back to Products</a>
+    </div>
 </div>

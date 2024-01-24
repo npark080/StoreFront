@@ -12,60 +12,71 @@
     </div>
 </section>
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="row mb-3">
+    <div class="col-md-6 offset-3 border rounded shadow p-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger text-center"></div>
             <input type="hidden" asp-for="ProductId" />
+            <input type="hidden" asp-for="ImageName" />
+            <div class="form-group text-center">
+                <img src="~/images/@Model.ImageName" />
+            </div>
+
             <div class="form-group">
-                <label asp-for="ProductName" class="control-label"></label>
-                <input asp-for="ProductName" class="form-control" />
-                <span asp-validation-for="ProductName" class="text-danger"></span>
+                <label asp-for="ProductName" class="control-label d-block text-center"></label>
+                <input asp-for="ProductName" class="form-control text-center" />
+                <span asp-validation-for="ProductName" class="text-danger text-center"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
+                <label asp-for="Price" class="control-label d-block text-center"></label>
+                <input asp-for="Price" class="form-control text-center" />
+                <span asp-validation-for="Price" class="text-danger text-center"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ProductDescription" class="control-label"></label>
-                <input asp-for="ProductDescription" class="form-control" />
-                <span asp-validation-for="ProductDescription" class="text-danger"></span>
+                <label asp-for="ProductDescription" class="control-label d-block text-center"></label>
+                <input asp-for="ProductDescription" class="form-control text-center" />
+                <span asp-validation-for="ProductDescription" class="text-danger text-center"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UnitsInStock" class="control-label"></label>
-                <input asp-for="UnitsInStock" class="form-control" />
-                <span asp-validation-for="UnitsInStock" class="text-danger"></span>
+                <label asp-for="UnitsInStock" class="control-label d-block text-center"></label>
+                <input asp-for="UnitsInStock" class="form-control text-center" />
+                <span asp-validation-for="UnitsInStock" class="text-danger text-center"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Season" class="control-label"></label>
-                <input asp-for="Season" class="form-control" />
-                <span asp-validation-for="Season" class="text-danger"></span>
+                <label asp-for="Season" class="control-label d-block text-center"></label>
+                <input asp-for="Season" class="form-control text-center" />
+                <span asp-validation-for="Season" class="text-danger text-center"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                <label asp-for="CategoryId" class="control-label d-block text-center"></label>
+                <select asp-for="CategoryId" class="form-control text-center" asp-items="ViewBag.CategoryId"></select>
+                <span asp-validation-for="CategoryId" class="text-danger text-center"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SupplierId" class="control-label"></label>
-                <select asp-for="SupplierId" class="form-control" asp-items="ViewBag.SupplierId"></select>
-                <span asp-validation-for="SupplierId" class="text-danger"></span>
+                <label asp-for="SupplierId" class="control-label d-block text-center"></label>
+                <select asp-for="SupplierId" class="form-control text-center" asp-items="ViewBag.SupplierId"></select>
+                <span asp-validation-for="SupplierId" class="text-danger text-center"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ImageName" class="control-label"></label>
-                <input asp-for="ImageName" class="form-control" />
-                <span asp-validation-for="ImageName" class="text-danger"></span>
+                <label asp-for="ImageName" class="control-label d-block text-center"></label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text text-center">Upload</span>
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" asp-for="ImageFile" class="custom-file-input" onchange="$('#file-label').text(this.files[0].name)" />
+                        <label asp-for="ImageFile" id="file-label" class="custom-file-label">@Model.ImageName</label>
+                    </div>
+                </div>
+                <span asp-validation-for="ImageString" class="text-danger text-center"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                @* <input type="submit" value="Create" class="btn btn-primary" /> *@
+                <button type="submit" class="btn btn-primary btn-block">Save</button>
+                <a asp-action="Index" class="btn btn-secondary btn-block">Back to Products</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to Products</a>
 </div>
 
 @section Scripts {

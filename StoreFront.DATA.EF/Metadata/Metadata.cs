@@ -109,10 +109,10 @@ namespace StoreFront.DATA.EF.Models//.Metadata
 
         [Required(ErrorMessage = "*Please enter the category the product falls under")]
         [Display(Name = "Category")]
-        public int CategoryID { get; set; }
+        public int CategoryId { get; set; }
 
         [Display(Name = "Supplier")]
-        public int? SupplierID { get; set; }
+        public int? SupplierId { get; set; }
 
         [StringLength(75, ErrorMessage = "*Cannot exceed 75 characters")]
         [Display(Name = "Image")]

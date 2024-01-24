@@ -84,7 +84,7 @@
                     @Html.DisplayFor(modelItem => item.Season)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ImageName)
+                    <img src="~/images/t_@item.ImageName" class="img-fluid" alt="@item.ProductName">
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Category.CategoryName)

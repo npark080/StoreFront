@@ -20,7 +20,7 @@ namespace StoreFront.DATA.EF.Models
         public int? SupplierId { get; set; }
         public string? ImageName { get; set; }
 
-        public virtual Category Category { get; set; } = null!;
+        public virtual Category? Category { get; set; } = null!;
         public virtual Supplier? Supplier { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }

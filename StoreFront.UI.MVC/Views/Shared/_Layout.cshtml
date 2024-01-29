@@ -46,8 +46,8 @@
                                         <span class="nav-label">Admin <span class="caret"></span></span>
                                     </a>
                                     <ul class="dropdown-menu">
+                                        <li><a asp-action="ListUsers" asp-controller="Administration">Users</a></li>
                                         <li><a asp-action="Index" asp-controller="Categories">Categories</a></li>
-                                        <li><a asp-action="Index" asp-controller="Orders">Orders</a></li>
                                         <li><a asp-action="ListRoles" asp-controller="Administration">Roles</a></li>
                                         <li><a asp-action="Index" asp-controller="Suppliers">Suppliers</a></li>
                                     </ul>
@@ -56,6 +56,13 @@
                             <li class="nav-item">
                                 <a class="nav-link" asp-action="Index" asp-controller="Products">Products</a>
                             </li>
+                            @if (User.Identity != null && User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="Index" asp-controller="Orders">Orders</a>
+                                </li>
+
+                            }
                             <li class="nav-item">
                                 <a class="nav-link" asp-action="Contact" asp-controller="Home">Contact</a>
                             </li>
@@ -63,13 +70,8 @@
                             <partial name="_LoginPartial" />
 
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fa fa-shopping-cart"></i></a>
+                                <a class="nav-link" asp-action="Index" asp-controller="ShoppingCart"><i class="fa fa-shopping-cart"></i></a>
                             </li>
-                            <form class="form-inline">
-                                <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
-                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                </button>
-                            </form>
                         </ul>
                     </div>
                 </nav>

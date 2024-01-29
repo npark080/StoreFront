@@ -24,6 +24,13 @@ namespace StoreFront.UI.MVC
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;//cannot be declined
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -42,6 +49,8 @@ namespace StoreFront.UI.MVC
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseAuthentication();
             app.UseAuthorization();

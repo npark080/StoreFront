@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ using StoreFront.DATA.EF.Models;
 
 namespace StoreFront.UI.MVC.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class OrdersController : Controller
     {
         private readonly StardewContext _context;
@@ -33,47 +34,26 @@ namespace StoreFront.UI.MVC.Controllers
             if (id == null || _context.Orders == null)
             {
                 return NotFound();
+
             }
 
             var order = await _context.Orders
-                .Include(o => o.OrderDetails)
                 .Include(o => o.User)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(op => op.Product)
                 .FirstOrDefaultAsync(m => m.OrderId == id);
-            if (order == null)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (order == null || !User.IsInRole("Admin") && order.UserId != userId)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            return View(order);
-        }
 
-        // GET: Orders/Create
-        public IActionResult Create()
-        {
-            ViewData["OrderId"] = new SelectList(_context.OrderDetails, "OrderId", "OrderId");
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId");
-            return View();
-        }
-
-        // POST: Orders/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderId,UserId,OrderDate,ShipToName,ShipRegion,ShipCity,ShipState,ShipZip")] Order order)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(order);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["OrderId"] = new SelectList(_context.OrderDetails, "OrderId", "OrderId", order.OrderId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", order.UserId);
             return View(order);
         }
 
         // GET: Orders/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Orders == null)
@@ -95,6 +75,7 @@ namespace StoreFront.UI.MVC.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("OrderId,UserId,OrderDate,ShipToName,ShipRegion,ShipCity,ShipState,ShipZip")] Order order)
         {
@@ -129,6 +110,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: Orders/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Orders == null)

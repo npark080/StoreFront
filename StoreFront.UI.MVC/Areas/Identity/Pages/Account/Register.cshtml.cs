@@ -6,10 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using StoreFront.DATA.EF.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -97,6 +99,35 @@ namespace StoreFront.UI.MVC.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            //Custom Fields
+#nullable enable
+            [StringLength(50, ErrorMessage = "Maximum 50 characters")]
+            [Display(Name = "First Name")]
+            public string? FirstName { get; set; } = null!;
+
+            [StringLength(50, ErrorMessage = "Maximum 50 characters")]
+            [Display(Name = "Last Name")]
+            public string? LastName { get; set; } = null!;
+
+            [StringLength(50, ErrorMessage = "Maximum 50 characters")]
+            public string? Region { get; set; }
+
+            [StringLength(50, ErrorMessage = "Maximum 50 characters")]
+            public string? Address { get; set; }
+
+            [StringLength(50, ErrorMessage = "Maximum 50 characters")]
+            public string? City { get; set; }
+
+            [StringLength(2, MinimumLength = 2)]
+            public string? State { get; set; }
+
+            [StringLength(5, MinimumLength = 5)]
+            public string? Zip { get; set; }
+
+            [StringLength(24)]
+            public string? Phone { get; set; }
+#nullable disable
         }
 
 
@@ -123,6 +154,24 @@ namespace StoreFront.UI.MVC.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
+                    #region custom user registration
+                    StardewContext _context = new();
+                    User u = new()
+                    {
+                        UserId = userId,
+                        FirstName = Input.FirstName,
+                        LastName = Input.LastName,
+                        Region = Input.Region,
+                        Address = Input.Address,
+                        City = Input.City,
+                        State = Input.State,
+                        Zip = Input.Zip,
+                        Phone = Input.Phone
+                    };
+                    _context.Users.Add(u);
+                    await _context.SaveChangesAsync();
+                    #endregion
+
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(

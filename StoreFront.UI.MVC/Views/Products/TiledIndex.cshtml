@@ -29,7 +29,7 @@
                                 <a asp-action="Details" asp-route-id="@item.ProductId" class="option1">
                                     @item.ProductName
                                 </a>
-                                <a href="javascript:void(0)" class="option2">
+                                <a asp-action="AddToCart" asp-controller="ShoppingCart" asp-route-id="@item.ProductId" class="option2">
                                     Add To Cart
                                 </a>
                             </div>

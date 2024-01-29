@@ -8,21 +8,70 @@
 <h3>@ViewData["Title"]</h3>
 <partial name="_StatusMessage" for="StatusMessage" />
 <div class="row">
-    <div class="col-md-6">
-        <form id="profile-form" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-floating">
-                <input asp-for="Username" class="form-control" disabled />
-                <label asp-for="Username" class="form-label"></label>
+    <form id="profile-form" method="post">
+        <div asp-validation-summary="ModelOnly" class="invalid-feedback"></div>
+        <div class="row">
+            <div class="col-md-6">
+
+                <div class="form-floating">
+                    <input asp-for="Username" class="form-control" disabled />
+                    <label asp-for="Username" class="form-label"></label>
+                </div>
+                <div class="form-floating">
+                    <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Phone Number" />
+                    <label asp-for="Input.PhoneNumber" class="form-label"></label>
+                    <span asp-validation-for="Input.PhoneNumber" class="invalid-feedback"></span>
+                </div>
+
+                <!-- Custom Fields -->
+                <div class="form-floating">
+                    <input asp-for="Input.FirstName" class="form-control" autocomplete="FirstName" aria-required="true" placeholder="anything" />
+                    <label asp-for="Input.FirstName"></label>
+                    <span asp-validation-for="Input.FirstName" class="invalid-feedback"></span>
+                </div>
+                <div class="form-floating">
+                    <input asp-for="Input.LastName" class="form-control" autocomplete="LastName" aria-required="true" placeholder="anything" />
+                    <label asp-for="Input.LastName"></label>
+                    <span asp-validation-for="Input.LastName" class="invalid-feedback"></span>
+                </div>
+                <div class="form-floating">
+                    <input asp-for="Input.Region" class="form-control" autocomplete="Region" aria-required="true" placeholder="anything" />
+                    <label asp-for="Input.Region"></label>
+                    <span asp-validation-for="Input.Region" class="invalid-feedback"></span>
+                </div>
             </div>
-            <div class="form-floating">
-                <input asp-for="Input.PhoneNumber" class="form-control" />
-                <label asp-for="Input.PhoneNumber" class="form-label"></label>
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            <div class="col-md-6">
+
+                <div class="form-floating">
+                    <input asp-for="Input.Address" class="form-control" autocomplete="Address" aria-required="true" placeholder="anything" />
+                    <label asp-for="Input.Address"></label>
+                    <span asp-validation-for="Input.Address" class="invalid-feedback"></span>
+                </div>
+                <div class="form-floating">
+                    <input asp-for="Input.City" class="form-control" autocomplete="City" aria-required="true" placeholder="anything" />
+                    <label asp-for="Input.City"></label>
+                    <span asp-validation-for="Input.City" class="invalid-feedback"></span>
+                </div>
+                <div class="form-floating">
+                    <input asp-for="Input.State" class="form-control" autocomplete="State" aria-required="true" placeholder="anything" />
+                    <label asp-for="Input.State"></label>
+                    <span asp-validation-for="Input.State" class="invalid-feedback"></span>
+                </div>
+                <div class="form-floating">
+                    <input asp-for="Input.Zip" class="form-control" autocomplete="Zip" aria-required="true" placeholder="anything" />
+                    <label asp-for="Input.Zip"></label>
+                    <span asp-validation-for="Input.Zip" class="invalid-feedback"></span>
+                </div>
+                <div class="form-floating">
+                    <input asp-for="Input.Phone" class="form-control" autocomplete="Phone" aria-required="true" placeholder="anything" />
+                    <label asp-for="Input.Phone"></label>
+                    <span asp-validation-for="Input.Phone" class="invalid-feedback"></span>
+                </div>
             </div>
-            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
-        </form>
-    </div>
+
+        </div>
+        <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+    </form>
 </div>
 
 @section Scripts {

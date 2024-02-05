@@ -32,6 +32,9 @@ namespace StoreFront.DATA.EF.Models//.Metadata
     public partial class Product 
     {
         [NotMapped]
+        public string SearchString => $"{ProductName} {ProductDescription} {Category?.CategoryName} {Supplier?.SupplierName}";
+
+        [NotMapped]
         public IFormFile? ImageFile { get; set; }
         [NotMapped]
         [FileExtensions(Extensions = "png,jpeg,jpg,gif", ErrorMessage = ".png, .jpeg, .jpg, .gif")]

@@ -14,16 +14,6 @@
                     <a asp-action="Create" class="btn btn-primary">Add New Product</a>
                     &nbsp;
                 </span>
-                bool inSeason = Model.Any(p => p.Season == "yearly" || p.Season == "winter");
-
-                @if (inSeason)
-                {
-                    <a asp-action="Index" class="btn btn-info">Current Products</a>
-                }
-                else
-                {
-                    <a asp-action="Index" asp-route-discontinued="true" class="btn btn-info">Out of Season</a>
-                }
             }
             &nbsp;
             <a asp-action="TiledIndex" class="btn btn-secondary">Tile View</a>
@@ -112,3 +102,19 @@
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable({
+                dom: 'Blfrtip', // B - buttons, l - how many per page, f - filtering, r - processing display, t- table, i - info, p- pagination
+                'columnDefs': [{
+                    "targets": [5, 2],
+                    "orderable": false
+                }],
+                responsive: true,
+                buttons: ['copy', 'excel', 'pdf']
+            });
+        });
+    </script>
+}

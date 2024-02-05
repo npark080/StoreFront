@@ -1,28 +1,61 @@
-﻿@model IEnumerable<StoreFront.DATA.EF.Models.Product>
+﻿@model IPagedList<StoreFront.DATA.EF.Models.Product>
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
 
 @{
     ViewData["Title"] = "Shop Products";
+}
+@section Styles {
+    <link href="~/css/pagedlist.css" rel="stylesheet" />
 }
 
 <section class="product_section layout_padding py-4">
     <div class="container">
         <div class="heading_container heading_center">
-            <h2>Shop <span>Gadgets</span></h2>
+            <h2>Our <span>Products</span></h2>
             <p align="center">
                 @if (User.IsInRole("Admin"))
                 {
                     <span>
                         <a asp-action="Create" class="btn btn-primary">Add New Gadget</a>
                         &nbsp;
+                        <a asp-action="Index" class="btn btn-secondary">Table View</a>
                     </span>
                 }
-                <a asp-action="Index" class="btn btn-secondary">Table View</a>
             </p>
         </div>
         <div class="row">
+            <div class="col-sm-6 offset-3">
+                <form asp-action="TiledIndex" method="get">
+                    <div class="form-floating">
+                        <select name="categoryId" class="form-control text-center mb-3" asp-items="ViewBag.CategoryId">
+                            <option value="0">[Choose a Category]</option>
+                        </select>
+                        <label for="categoryId" class="form-label d-block text-center">Category</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" name="searchTerm" value="@ViewBag.SearchTerm" class="form-control text-center" placeholder="Search Products..." />
+                        <label for="searchTerm" class="form-label text-center">Search Products...</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Search</button>
+                    <a class="btn btn-secondary btn-block" asp-action="TiledIndex">Clear</a>
+                </form>
+                @if (ViewBag.NbrResults != null)
+                {
+                    <p class="mt-5 p-2 alert alert-warning text-center">
+                        Showing @ViewBag.NbrResults result@(ViewBag.NbrResults != 1 ? "s" : "")
+                        @(ViewBag.SearchTerm != null ? "for \"" + ViewBag.SearchTerm + "\"" : "")
+                        @(ViewBag.CatName != null ? "in " + ViewBag.CatName : "").
+                    </p>
+                }
+            </div>
+        </div>
+
+
+        <div class="row d-flex align-items-center">
             @foreach (var item in Model)
             {
-                <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="col-sm-6 col-md-4">
                     <div class="box h-100">
                         <div class="option_container">
                             <div class="options">
@@ -49,5 +82,21 @@
                 </div>
             }
         </div>
+
+        <div class="row mt-5">
+            <div class="col-md-6 mx-auto text-center">
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                <div class="w-100">
+                    @Html.PagedListPager(
+                             Model,
+                             page => Url.Action("TiledIndex",
+                             new
+                             {
+                                 page,
+                                 searchTerm = ViewBag.SearchTerm,
+                                 categoryId = ViewBag.CatId
+                             }))
+                </div>
+            </div>
+        </div>
     </div>
-</section>

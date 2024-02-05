@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StoreFront.DATA.EF.Models;
+using Microsoft.AspNetCore.Authorization;
 using System.Drawing;
 using StoreFront.UI.MVC.Utilities;
+using System.Reflection.Metadata;
+using X.PagedList;
 
 namespace StoreFront.UI.MVC.Controllers
 {
@@ -28,6 +30,11 @@ namespace StoreFront.UI.MVC.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
+            if (!User.IsInRole("Admin"))
+            {
+                return RedirectToAction(nameof(TiledIndex));
+            }
+
             var products = _context.Products
                 .Where(p => p.Season == "yearly" || p.Season == "winter")
                 .Include(p => p.Category)
@@ -38,13 +45,40 @@ namespace StoreFront.UI.MVC.Controllers
 
         // GET: Products
         [AllowAnonymous]
-        public async Task<IActionResult> TiledIndex()
+        public async Task<IActionResult> TiledIndex(string? searchTerm, int categoryId = 0, int page = 1)
         {
-            var products = _context.Products
-                .Where(p => p.Season == "yearly" || p.Season == "winter")
-                .Include(p => p.Category)
-                .Include(p => p.Supplier);
-            return View(await products.ToListAsync());
+            var products =  await _context.Products
+        .Where(p => p.Season == "yearly" || p.Season == "winter")
+        .Include(p => p.Category)
+        .Include(p => p.Supplier).ToListAsync();
+
+            #region Search Filter
+            if (searchTerm != null)
+            {
+                ViewBag.SearchTerm = searchTerm;
+                searchTerm = searchTerm.ToLower();
+
+                products = products
+                    .Where(p => p.SearchString.ToLower().Contains(searchTerm))
+                    .ToList();
+                ViewBag.NbrResults = products.Count();
+
+            }
+            #endregion
+
+            #region Category Search
+            ViewBag.CategoryId = new SelectList(_context.Categories, "CategoryId", "CategoryName", categoryId);
+            if (categoryId != 0)
+            {
+                products = products.Where(p => p.CategoryId == categoryId).ToList();
+                ViewBag.NbrResults = products.Count;
+                var cat = await _context.Categories.FirstOrDefaultAsync(c => c.CategoryId == categoryId);
+                ViewBag.CatName = cat?.CategoryName;
+                ViewBag.CatId = cat?.CategoryId;
+            }
+            #endregion
+
+            return View(products.ToPagedList(page, 6));
         }
 
         // GET: Products/Details/5

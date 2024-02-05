@@ -21,8 +21,11 @@
     <link href="~/css/style.css" rel="stylesheet" />
     <!-- responsive style -->
     <link href="~/css/responsive.css" rel="stylesheet" />
+    <!-- datatables.net -->
+    <link href="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-1.13.8/b-2.4.2/b-colvis-2.4.2/b-html5-2.4.2/b-print-2.4.2/datatables.min.css" rel="stylesheet">
     <!-- custom styles-->
     <link href="~/css/custom.css" rel="stylesheet" />
+    @RenderSection("Styles", false)
 </head>
 <body>
     <div class="hero_area">
@@ -171,6 +174,10 @@
     <script src="~/js/popper.min.js"></script>
     <!-- bootstrap js -->
     <script src="~/js/bootstrap.js"></script>
+    <!-- datatables.net -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-1.13.8/b-2.4.2/b-colvis-2.4.2/b-html5-2.4.2/b-print-2.4.2/datatables.min.js"></script>
     <!-- custom js -->
     <script src="~/js/custom.js"></script>
 

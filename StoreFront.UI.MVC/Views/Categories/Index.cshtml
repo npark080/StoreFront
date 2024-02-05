@@ -6,14 +6,27 @@
 
 <section class="product_section layout_padding gray-section py-4">
     <div class="heading_container heading_center">
-        <h2>Our <span>Categories</span></h2>
-        <p align="center">
-            <a asp-action="Create">Add New Category</a>
-        </p>
+        <h2><span>Categories</span></h2>
     </div>
+<div class="row">
+    <div align="center" class="col-md-6 offset-md-3 mb-3">
+        <button id="toggleCategoryCreate" class="btn btn-primary">Add New Category</button>
+    </div>
+</div>
 </section>
 
-<table class="table">
+
+<div id="categoryCreate">
+    <partial name="Create" model="new StoreFront.DATA.EF.Models.Category()" />
+</div>
+
+<div class="row">
+    <div class="offset-md-3 col-md-6">
+        <div id="messageContent" class="text-center"></div>
+    </div>
+</div>
+
+<table class="table" id="categoriesTable">
     <thead>
         <tr>
             <th>
@@ -28,21 +41,54 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr id="category-@item.CategoryId">
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.CategoryId">
                         @Html.DisplayFor(modelItem => item.CategoryName)
-                    </a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CategoryDescription)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a> |
-                    @*<a asp-action="Details" asp-route-id="@item.CategoryId">Details</a> | *@
-                    <a asp-action="Delete" asp-route-id="@item.CategoryId">Delete</a>
+                    <a href="" class="editLink" id="@item.CategoryId">Edit</a> |
+
+                    <button type="button"
+                            class="detailsLink btn-link btn"
+                            id="@item.CategoryId"
+                            data-toggle="modal"
+                            data-target="#categoryDetails">
+                        Details
+                    </button> |
+
+                    <a data-ajax="true"
+                       data-ajax-confirm="Are you sure you want to delete @item.CategoryName?"
+                       asp-action="Delete"
+                       asp-controller="Categories"
+                       asp-route-id="@item.CategoryId"
+                       data-ajax-failure="deleteFailed"
+                       data-ajax-success="deleteConfirmed"
+                       data-ajax-method="POST">
+                        Delete
+                    </a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<div class="modal fade" id="categoryDetails" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Details</h5>
+            </div>
+            <div class="modal-body" id="detailsBody"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/categories.js"></script>
+}

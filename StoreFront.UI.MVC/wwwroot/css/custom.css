@@ -6,6 +6,7 @@
 .custom_nav-container .navbar-nav .nav-item .nav-link {
     color: white;
 }
+
 .custom_nav-container .navbar-nav .nav-item.active .nav-link {
     color: #F9EC88;
 }
@@ -31,6 +32,7 @@ body {
 .slider_section {
     padding-bottom: 0;
 }
+
 #divider {
     background: url(https://stardewvalley.net/wp-content/uploads/2017/12/sdv_divider.png);
     width: 100%;
@@ -42,4 +44,8 @@ body {
 /* Footer */
 footer {
     background-color: #F7E994;
+}
+
+footer a {
+    color: green;
 }
